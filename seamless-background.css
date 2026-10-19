@@ -1,0 +1,44 @@
+/* Seamless v2: single physical page surface. No cropped rectangular gradients. */
+html { background:#fcfbff; }
+body { background:#fcfbff !important; background-image:none !important; }
+/* One large, fully fading atmospheric light source painted across the whole viewport. */
+body::before {
+  content:"";
+  position:fixed;
+  inset:-32%;
+  z-index:0;
+  pointer-events:none;
+  background:radial-gradient(ellipse 34% 35% at 70% 46%,rgba(205,178,244,.15) 0%,rgba(224,209,250,.085) 38%,rgba(252,251,255,0) 78%);
+}
+/* Header floats on the very same surface; remove solid strip/border/shadow. */
+.site-header {
+  background:rgba(252,251,255,.22) !important;
+  background-image:none !important;
+  border:0!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.site-header::before,.site-header::after { content:none!important; }
+/* Eliminate competing rectangular painted layers but retain the round frame and image. */
+main, #home, #home.hero, .hero, .hero-copy, .portrait-wrap {
+  background:transparent!important;
+  background-image:none!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+.hero::before,.hero::after,.portrait-wrap::before,.portrait-wrap::after { content:none!important; }
+/* Portrait soft round aura, smoothly fading at every edge. */
+body[data-style="orbit"] .portrait-shape {
+  background:radial-gradient(circle,rgba(224,208,251,.6) 0%,rgba(244,236,254,.32) 55%,transparent 72%)!important;
+  border-color:rgba(207,187,238,.40)!important;
+  box-shadow:0 0 0 1px rgba(226,212,246,.5)!important;
+}
+/* Avoid a visible section break under the hero. */
+#home { border-bottom:none!important; }
+@media(max-width:820px){body::before{inset:-24%;background:radial-gradient(ellipse 42% 24% at 54% 49%,rgba(209,188,244,.14),transparent 82%)}}
+
+/* Locked seamless layout — keep the portrait photo unobstructed. */
+body[data-style="orbit"] .photo-frame { isolation:isolate; background:transparent!important; -webkit-backdrop-filter:none!important; backdrop-filter:none!important; }
+body[data-style="orbit"] .photo-frame img { opacity:1!important; filter:none!important; mix-blend-mode:normal!important; transform:none; position:relative; z-index:2; }
+body[data-style="orbit"] .photo-frame::before,body[data-style="orbit"] .photo-frame::after { content:none!important; display:none!important; }
